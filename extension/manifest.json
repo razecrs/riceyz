@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Batcave Tabs Bridge",
+  "version": "1.0",
+  "description": "Exposes your open browser tabs to the Batcave launcher (tab search + switch).",
+  "permissions": ["tabs"],
+  "host_permissions": ["http://127.0.0.1:37421/*"],
+  "background": { "service_worker": "background.js" }
+}

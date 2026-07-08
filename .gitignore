@@ -1,0 +1,19 @@
+tokens.json
+
+/host/target/
+**/target/
+
+# --- node ---
+node_modules/
+
+# --- webview2 runtime data ---
+.webview2/
+/host/.webview2/
+
+# --- local runtime state ---
+/host/mft_status.txt
+/host/*.log
+config.json
+specs.json
+wallpaper.png
+legacy/

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batcave Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== HUD FRAME ===== -->
+  <div class="frame">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+    <span class="edge-top"></span><span class="edge-bottom"></span>
+  </div>
+
+  <!-- ===== TOP-CENTER PERF OVERLAY (camera-notch area) ===== -->
+  <div class="perf" id="perf">
+    <span><b id="fps">--</b><i>FPS</i></span><em></em>
+    <span><b id="ftime">--</b><i>MS</i></span><em></em>
+    <span><b id="pgpu">--</b><i>GPU%</i></span><em></em>
+    <span><b id="ptemp">--</b><i>°C</i></span>
+  </div>
+
+  <!-- ===== THEME SWITCHER (top-right) ===== -->
+  <div class="themes" id="themes">
+    <button class="swatch" data-accent="#1b9dff" data-dim="#0c5f96" style="--c:#1b9dff" title="Blue"></button>
+    <button class="swatch" data-accent="#ffcf1a" data-dim="#9c8410" style="--c:#ffcf1a" title="Yellow"></button>
+    <button class="swatch" data-accent="#ff3131" data-dim="#8f1414" style="--c:#ff3131" title="Red"></button>
+    <button class="swatch" data-accent="#e6e9ee" data-dim="#6b7580" style="--c:#e6e9ee" title="White"></button>
+  </div>
+
+  <!-- ===== QUICK DOCK (power + toggles) ===== -->
+  <div class="qdock" id="qdock">
+    <button class="qbtn" id="qreload" title="Reload UI"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><polyline points="21 3 21 8 16 8"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><polyline points="3 21 3 16 8 16"/></svg></button>
+    <button class="qbtn" data-open="ms-settings:" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M20 12a8 8 0 0 0-.14-1.5l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2.6-1.5L14.5 2h-5l-.36 2.5A8 8 0 0 0 6.5 6l-2.4-1-2 3.5 2 1.5A8 8 0 0 0 4 12a8 8 0 0 0 .14 1.5l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2.6 1.5L9.5 22h5l.36-2.5a8 8 0 0 0 2.64-1.5l2.4 1 2-3.5-2-1.5A8 8 0 0 0 20 12z"/></svg></button>
+    <button class="qbtn" data-open="ms-screenclip:" title="Screenshot"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
+    <button class="qbtn" data-open="taskmgr" title="Task Manager"><svg viewBox="0 0 24 24"><line x1="5" y1="20" x2="5" y2="12"/><line x1="10" y1="20" x2="10" y2="5"/><line x1="15" y1="20" x2="15" y2="14"/><line x1="20" y1="20" x2="20" y2="9"/></svg></button>
+    <button class="qbtn" data-power="lock" title="Lock"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></button>
+    <button class="qbtn power" id="qpower" title="Power"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="12"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/></svg></button>
+    <div class="qmenu" id="qmenu">
+      <button data-power="shutdown">SHUT DOWN</button>
+      <button data-power="restart">RESTART</button>
+      <button data-power="sleep">SLEEP</button>
+      <button data-power="signout">SIGN OUT</button>
+    </div>
+  </div>
+
+  <!-- (center left open, your wallpaper's Batman is the centerpiece) -->
+
+  <!-- ===== TOP-LEFT: SYSTEM ===== -->
+  <section class="panel system">
+    <h2>SYSTEM</h2>
+    <div class="stat"><label>CPU USAGE</label><b id="cpu">--%</b><i class="bar"><u id="cpuBar"></u></i></div>
+    <div class="stat"><label>RAM USAGE</label><b id="ram">--%</b><i class="bar"><u id="ramBar"></u></i></div>
+    <div class="stat"><label>GPU USAGE</label><b id="gpu">--%</b><i class="bar"><u id="gpuBar"></u></i></div>
+  </section>
+
+  <!-- ===== LEFT RAIL ===== -->
+  <div class="bridge">BRIDGE&nbsp;CONTROL</div>
+  <nav class="launchers">
+    <a class="tab">CHROME</a>
+    <a class="tab">CODE</a>
+    <a class="tab">TERMINAL</a>
+    <a class="tab">FILES</a>
+    <a class="tab">STEAM</a>
+  </nav>
+  <div class="ram-big"><span id="ramBig">43</span><small>%</small><label>RAM USAGE</label></div>
+
+  <!-- ===== RIGHT CLUSTER: CLOCK + DIAL ===== -->
+  <section class="right">
+    <div class="clock"><span id="time">00:00</span><em id="ampm">--</em></div>
+    <div class="dial">
+      <svg viewBox="0 0 200 200"><circle class="ring r1" cx="100" cy="100" r="92"/><circle class="ring r2" cx="100" cy="100" r="70"/><circle class="ring r3" cx="100" cy="100" r="48"/><circle class="dot" cx="100" cy="100" r="4"/></svg>
+      <span class="disk">C: <b id="disk">--</b></span>
+    </div>
+    <ul class="links"><li>GMAIL</li><li>YOUTUBE</li><li>GITHUB</li><li>REDDIT</li><li>DISCORD</li></ul>
+  </section>
+
+  <!-- ===== BOTTOM: GREETING / DATE / WEATHER ===== -->
+  <div class="greeting"><span id="greet">GOOD EVENING, MASTER WAYNE.</span></div>
+  <div class="date"><span id="dnum">12</span><i>|</i><span id="dday">TUE</span><i>|</i><span id="dmon">NOV 12TH</span></div>
+
+  <section class="weather">
+    <h3 id="wloc">LOCATING…</h3>
+    <div class="wmain"><span id="wtemp">--°</span><span id="wdesc">--</span></div>
+    <ul id="wmeta"><li>WIND <b id="wwind">--</b></li><li>HUMIDITY <b id="whum">--</b></li></ul>
+  </section>
+
+  <!-- ===== HARDWARE + INCOGNITO ===== -->
+  <section class="panel hardware" id="hw">
+    <h2>HARDWARE
+      <button class="eye" id="eye" aria-label="Toggle privacy">
+        <svg viewBox="0 0 24 16"><path class="eball" d="M12 1C5 1 1 8 1 8s4 7 11 7 11-7 11-7-4-7-11-7z"/><circle cx="12" cy="8" r="3"/><line class="slash" x1="3" y1="2" x2="21" y2="14"/></svg>
+      </button>
+    </h2>
+    <div class="hwrow"><label>CPU</label><b class="secret" id="hwCpu">--</b></div>
+    <div class="hwrow"><label>GPU</label><b class="secret" id="hwGpu">--</b></div>
+    <div class="hwrow"><label>RAM</label><b class="secret" id="hwRam">--</b></div>
+    <div class="hwrow"><label>SSD</label><b class="secret" id="hwSsd">--</b></div>
+    <div class="hwrow"><label>HDD</label><b class="secret" id="hwHdd">--</b></div>
+  </section>
+
+  <!-- ===== MUSIC PLAYER ===== -->
+  <div class="music" id="music">
+    <div class="mctl">
+      <button data-m="prev" aria-label="Previous">⏮</button>
+      <button data-m="playpause" id="mplay" aria-label="Play/Pause">▶</button>
+      <button data-m="next" aria-label="Next">⏭</button>
+    </div>
+    <div class="minfo"><b id="mtitle">NOTHING PLAYING</b><span id="martist"></span></div>
+  </div>
+
+  <!-- ===== AUDIO VISUALIZER ===== -->
+  <canvas id="viz" width="360" height="70"></canvas>
+
+  <!-- ===== BATARANG NOTIFICATION ===== -->
+  <div id="batnotif">
+    <div id="bnvignette"></div>
+    <div id="bnslash"></div>
+    <div id="bnflyer">
+      <div id="bnstreak"></div>
+      <svg id="bnbatarang" viewBox="0 0 64 30" aria-hidden="true">
+        <path d="M32 3 C30 8 27 9 24 7 C21 12 14 13 10 9 C11 13 9 15 5 14 C8 16 8 19 6 21
+                 C10 18 15 18 18 22 C20 16 25 15 28 18 C29 15 31 14 32 17 C33 14 35 15 36 18
+                 C39 15 44 16 46 22 C49 18 54 18 58 21 C56 19 56 16 59 14 C55 15 53 13 54 9
+                 C50 13 43 12 40 7 C37 9 34 8 32 3 Z"/>
+      </svg>
+    </div>
+    <div id="bnmsg"><span id="bntag">BATCAVE</span><span id="bntext"></span></div>
+  </div>
+
+</div>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

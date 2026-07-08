@@ -1,0 +1,126 @@
+/**
+ * ╔══════════════════════════════════════════════╗
+ * ║  BATCAVE · Dark Knight theme for Discord      ║
+ * ║  Paste into Equicord/Vencord → Settings →     ║
+ * ║  "Custom CSS" (QuickCSS). Matches the rice.   ║
+ * ╚══════════════════════════════════════════════╝
+ */
+
+:root,
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.theme-light {
+  /* ---- palette (matches the dashboard) ---- */
+  --bc-accent:#1b9dff;
+  --bc-accent-dim:#0c5f96;
+  --bc-glow:rgba(27,157,255,.55);
+  --bc-bg0:#04060a;   /* deepest */
+  --bc-bg1:#080c12;   /* main     */
+  --bc-bg2:#0c121b;   /* raised   */
+  --bc-line:#e8ebf0;
+  --bc-dim:#586472;
+
+  /* ---- Discord classic background tokens ---- */
+  --background-primary:var(--bc-bg1);
+  --background-secondary:var(--bc-bg0);
+  --background-secondary-alt:var(--bc-bg2);
+  --background-tertiary:var(--bc-bg0);
+  --background-floating:#020306;
+  --background-nested-floating:#04060a;
+  --channeltextarea-background:var(--bc-bg2);
+  --background-accent:var(--bc-accent);
+  --background-message-hover:rgba(27,157,255,.05);
+
+  /* ---- Discord 2024+ base tokens ---- */
+  --bg-base-lowest:#020306;
+  --bg-base-lower:var(--bc-bg0);
+  --bg-base-low:var(--bc-bg1);
+  --bg-base-primary:var(--bc-bg1);
+  --bg-base-secondary:var(--bc-bg0);
+  --bg-base-tertiary:var(--bc-bg2);
+  --bg-surface-overlay:#04060a;
+  --bg-surface-raised:var(--bc-bg2);
+  --bg-surface-higher:var(--bc-bg2);
+
+  /* ---- brand / accent everywhere ---- */
+  --brand-experiment:var(--bc-accent);
+  --brand-experiment-560:var(--bc-accent-dim);
+  --brand-500:var(--bc-accent);
+  --brand-560:var(--bc-accent-dim);
+  --brand-600:var(--bc-accent-dim);
+  --button-filled-brand-background:var(--bc-accent);
+  --button-filled-brand-background-hover:var(--bc-accent-dim);
+  --mention-foreground:var(--bc-accent);
+  --mention-background:rgba(27,157,255,.12);
+
+  /* ---- text ---- */
+  --text-normal:#d6dde6;
+  --text-default:#d6dde6;
+  --text-muted:var(--bc-dim);
+  --header-primary:var(--bc-line);
+  --header-secondary:#8aa0b4;
+  --interactive-normal:#9fb0c0;
+  --interactive-hover:var(--bc-line);
+  --interactive-active:var(--bc-accent);
+  --white-500:var(--bc-line);
+
+  /* ---- misc ---- */
+  --background-modifier-hover:rgba(27,157,255,.08);
+  --background-modifier-selected:rgba(27,157,255,.15);
+  --background-modifier-active:rgba(27,157,255,.12);
+  --scrollbar-thin-thumb:var(--bc-accent-dim);
+  --scrollbar-auto-thumb:var(--bc-accent-dim);
+  --scrollbar-auto-track:transparent;
+}
+
+/* deep-black app with a faint bat-glow at the top */
+#app-mount,
+[class*="appMount"] {
+  background:
+    radial-gradient(75% 45% at 50% 0%, rgba(27,157,255,.06), transparent 62%),
+    #04060a !important;
+}
+
+/* subtle scanlines over everything (pure vibe) */
+#app-mount::after {
+  content:"";
+  position:fixed; inset:0; z-index:99999; pointer-events:none;
+  background:repeating-linear-gradient(rgba(27,157,255,.022) 0 1px, transparent 1px 3px);
+  opacity:.55;
+}
+
+/* glowing links + mentions */
+a, [class*="anchor"] { color:var(--bc-accent) !important; }
+[class*="mention"] {
+  color:var(--bc-accent) !important;
+  background:rgba(27,157,255,.12) !important;
+  text-shadow:0 0 6px var(--bc-glow);
+}
+
+/* selected channel = accent bar + soft glow */
+[class*="modeSelected"] {
+  box-shadow:inset 2px 0 0 var(--bc-accent), 0 0 14px rgba(27,157,255,.14) !important;
+}
+
+/* your own hovered/selected server pill glows */
+[class*="listItem"]:hover [class*="pill"],
+[class*="selected"] [class*="pill"] { background:var(--bc-accent) !important; }
+
+/* accent + glow the message send box when focused */
+[class*="channelTextArea"] [class*="scrollableContainer"]:focus-within {
+  box-shadow:0 0 0 1px var(--bc-accent-dim), 0 0 16px rgba(27,157,255,.12);
+}
+
+/* slim, on-brand scrollbars */
+::-webkit-scrollbar { width:9px !important; height:9px !important; }
+::-webkit-scrollbar-thumb {
+  background:var(--bc-accent-dim) !important;
+  border:2px solid transparent !important;
+  background-clip:padding-box !important;
+  border-radius:0 !important;
+}
+::-webkit-scrollbar-thumb:hover { background:var(--bc-accent) !important; }
+::-webkit-scrollbar-track { background:transparent !important; }
+
+/* green "online" kept for readability; buttons/toggles pick up the accent via vars */

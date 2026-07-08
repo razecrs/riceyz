@@ -1,0 +1,39 @@
+/* ===== Batcave Toast, opaque over-app notification ===== */
+:root{--accent:#1b9dff;--accent-dim:#0c5f96;--glow:rgba(27,157,255,.55);--line:#e8ebf0;--dim:#586472;
+  --hud:'Bahnschrift','Segoe UI Semibold',system-ui,sans-serif;--mono:'JetBrains Mono',Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#04060a;
+  font-family:var(--hud);color:var(--line);user-select:none}
+
+#toast{position:relative;width:100%;height:100%;display:flex;align-items:center;gap:16px;padding:0 22px;
+  background:linear-gradient(180deg,rgba(11,15,22,1),rgba(5,7,11,1));
+  border:1px solid var(--accent-dim);
+  box-shadow:inset 0 0 34px rgba(0,0,0,.55);
+  clip-path:polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px));
+  opacity:0;transform:scale(.98)}
+#toast.show{animation:tpop .3s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes tpop{to{opacity:1;transform:scale(1)}}
+
+/* accent bar grows down the left edge */
+#toast::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--accent);box-shadow:0 0 12px var(--glow);transform-origin:top;transform:scaleY(0)}
+#toast.show::before{animation:tedge .3s ease .04s forwards}
+@keyframes tedge{to{transform:scaleY(1)}}
+
+/* mini batarang spins in */
+#tbat{width:42px;height:21px;fill:var(--accent);flex-shrink:0;filter:drop-shadow(0 0 6px var(--glow));opacity:0}
+#toast.show #tbat{animation:tspin .55s cubic-bezier(.2,.85,.2,1) forwards}
+@keyframes tspin{0%{transform:rotate(-620deg) scale(.4);opacity:0}100%{transform:rotate(0) scale(1);opacity:1}}
+
+#tbody{display:flex;flex-direction:column;gap:4px;overflow:hidden;flex:1}
+#ttag{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--accent);text-shadow:0 0 6px var(--glow)}
+#ttext{font-size:16px;letter-spacing:.05em;color:var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0}
+#toast.show #ttext{animation:tfade .3s ease .12s forwards}
+#toast.show #ttag{animation:tfade .3s ease .06s backwards}
+@keyframes tfade{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+/* countdown bar */
+#tbar{position:absolute;bottom:0;left:0;height:2px;width:100%;background:var(--accent);
+  box-shadow:0 0 8px var(--glow);transform-origin:left}
+#toast.show #tbar{animation:tcount 2.2s linear forwards}
+@keyframes tcount{from{transform:scaleX(1)}to{transform:scaleX(0)}}

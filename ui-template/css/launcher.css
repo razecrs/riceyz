@@ -1,0 +1,12 @@
+/* Launcher popup. Opaque, sized to content (you tell the host its height with resize:). */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { font-family: "Segoe UI", system-ui, sans-serif; user-select: none; }
+
+#launcher { background: #0a0d12; border: 1px solid #1b9dff; border-radius: 12px; overflow: hidden; }
+
+#q { width: 100%; padding: 16px 20px; font-size: 18px; background: none; border: none;
+  color: #e8ebf0; outline: none; }
+
+#results { list-style: none; }
+#results li { padding: 10px 20px; color: #9aa4b2; cursor: pointer; }
+#results li.sel { background: rgba(27,157,255,.18); color: #fff; }

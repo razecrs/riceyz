@@ -1,0 +1,5 @@
+{
+  "name": "Sample Echo",
+  "trigger": "echo",
+  "command": "node index.js"
+}

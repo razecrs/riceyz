@@ -1,0 +1,26 @@
+/* Wallpaper surface. Must be OPAQUE: WebView2 transparency renders solid white on some
+   machines, so give it a real background (or use the wallpaper.png the host drops in). */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+#app {
+  position: fixed; inset: 0;
+  background: linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.45)),
+              url('../wallpaper.png') center/cover no-repeat, #0a0d12;
+  color: #e8ebf0; font-family: "Segoe UI", system-ui, sans-serif; user-select: none;
+}
+
+.clock { position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+  font-size: 64px; font-weight: 300; text-shadow: 0 0 20px rgba(0,0,0,.6); }
+
+.stats { position: absolute; top: 40px; left: 40px; display: flex; flex-direction: column;
+  gap: 6px; font-size: 14px; letter-spacing: .1em; }
+.stats b { color: #1b9dff; }
+
+.now { position: absolute; bottom: 40px; left: 40px; font-size: 14px; opacity: .85; }
+
+/* notification: hidden until pushNotif() adds .show */
+.notif { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  padding: 12px 22px; background: #0a0e14; border: 1px solid #1b9dff; border-radius: 10px;
+  opacity: 0; transition: opacity .3s; pointer-events: none; }
+.notif.show { opacity: 1; }

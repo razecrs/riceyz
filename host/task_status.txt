@@ -1,0 +1,1 @@
+BatcaveHost task registered (elevated, at logon).

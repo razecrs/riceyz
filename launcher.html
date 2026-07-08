@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batcave Launcher</title>
+<link rel="stylesheet" href="css/launcher.css">
+</head>
+<body>
+<div id="launcher">
+  <span class="lc lc-tl"></span><span class="lc lc-tr"></span>
+  <span class="lc lc-bl"></span><span class="lc lc-br"></span>
+  <div class="lscan"></div>
+  <div class="lbar">
+    <svg class="lbat" viewBox="0 0 64 30" aria-hidden="true">
+      <path d="M32 3 C30 8 27 9 24 7 C21 12 14 13 10 9 C11 13 9 15 5 14 C8 16 8 19 6 21
+               C10 18 15 18 18 22 C20 16 25 15 28 18 C29 15 31 14 32 17 C33 14 35 15 36 18
+               C39 15 44 16 46 22 C49 18 54 18 58 21 C56 19 56 16 59 14 C55 15 53 13 54 9
+               C50 13 43 12 40 7 C37 9 34 8 32 3 Z"/>
+    </svg>
+    <input id="lsearch" type="text" placeholder="ENTER COMMAND, MASTER WAYNE…" autocomplete="off" spellcheck="false" autofocus>
+    <span class="lhint">ESC</span>
+  </div>
+  <ul id="lresults"></ul>
+  <div class="lfoot"><span>BATCAVE</span><span>// COMMAND DECK</span></div>
+</div>
+<script src="js/launcher.js"></script>
+</body>
+</html>

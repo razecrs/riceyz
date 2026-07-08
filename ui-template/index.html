@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batcave Skin</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- This is the wallpaper surface. Style it however you want. -->
+  <!-- Background image (the host drops the user's wallpaper here as wallpaper.png). -->
+  <div id="app">
+    <div class="clock" id="clock">00:00</div>
+
+    <div class="stats">
+      <span>CPU <b id="cpu">--</b>%</span>
+      <span>RAM <b id="ram">--</b>%</span>
+    </div>
+
+    <!-- now playing (filled by the host over SMTC) -->
+    <div class="now" id="now"></div>
+
+    <!-- notification target: the host calls pushNotif() when a real Windows notif arrives -->
+    <div class="notif" id="notif"></div>
+  </div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

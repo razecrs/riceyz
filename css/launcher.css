@@ -1,0 +1,98 @@
+/* ===== Batcave Launcher, Dark Knight command deck ===== */
+:root{
+  --accent:#1b9dff; --accent-dim:#0c5f96; --glow:rgba(27,157,255,.55);
+  --line:#e8ebf0; --dim:#586472;
+  --hud:'Bahnschrift','Segoe UI Semibold',system-ui,sans-serif;
+  --mono:'JetBrainsMono Nerd Font','JetBrains Mono',Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;
+  font-family:var(--hud);color:var(--line);user-select:none}
+
+#launcher{
+  position:relative;width:100%;
+  background:linear-gradient(180deg,rgba(9,13,20,.985),rgba(4,6,10,.99));
+  border:1px solid var(--accent-dim);
+  box-shadow:0 0 34px rgba(0,0,0,.85), 0 0 22px var(--glow), inset 0 0 34px rgba(0,0,0,.55);
+  clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  overflow:hidden;
+}
+/* ===== cinematic "HUD materialize", replayed every summon via .show ===== */
+#launcher.show{animation:materialize .46s cubic-bezier(.16,1,.3,1)}
+@keyframes materialize{
+  0%{opacity:0;transform:scaleY(.02);filter:brightness(3) saturate(1.5)}
+  18%{opacity:1;transform:scaleY(.05);filter:brightness(3)}   /* holds as a bright line */
+  44%{transform:scaleY(1.06);filter:brightness(1.5)}          /* overshoot unfold */
+  100%{opacity:1;transform:scaleY(1);filter:none}
+}
+/* top accent line rips across (with a white-hot core) */
+#launcher.show::before{content:"";position:absolute;top:0;left:0;height:2px;width:100%;z-index:7;
+  background:linear-gradient(90deg,transparent,var(--accent),#fff,var(--accent),transparent);
+  box-shadow:0 0 14px var(--glow);animation:sweep .5s ease}
+@keyframes sweep{0%{width:0;opacity:0}50%{opacity:1}100%{width:100%;opacity:.9}}
+/* bright scan band prints down the panel */
+#launcher.show::after{content:"";position:absolute;left:0;right:0;top:-50px;height:46px;z-index:6;pointer-events:none;
+  background:linear-gradient(rgba(27,157,255,0),rgba(27,157,255,.42),rgba(27,157,255,0));
+  box-shadow:0 0 22px var(--glow);animation:scandown .54s ease .06s backwards}
+@keyframes scandown{0%{top:-50px;opacity:0}25%{opacity:1}100%{top:100%;opacity:0}}
+/* corner brackets snap into place */
+#launcher.show .lc{animation:cornersnap .4s cubic-bezier(.2,1.5,.4,1) backwards}
+@keyframes cornersnap{0%{opacity:0;transform:scale(1.9)}60%{opacity:.85}100%{transform:scale(1)}}
+/* content rises in, staggered */
+#launcher.show .lbar{animation:rise .4s ease .06s backwards}
+#launcher.show #lresults{animation:rise .42s ease .13s backwards}
+#launcher.show .lfoot{animation:rise .42s ease .17s backwards}
+@keyframes rise{0%{opacity:0;transform:translateY(7px)}100%{opacity:1;transform:none}}
+
+/* HUD corner brackets */
+.lc{position:absolute;width:13px;height:13px;border:1.5px solid var(--accent);z-index:5;
+  opacity:.85;filter:drop-shadow(0 0 4px var(--glow))}
+.lc-tl{top:5px;left:5px;border-right:0;border-bottom:0}
+.lc-tr{top:5px;right:5px;border-left:0;border-bottom:0}
+.lc-bl{bottom:5px;left:5px;border-right:0;border-top:0}
+.lc-br{bottom:5px;right:5px;border-left:0;border-top:0}
+
+/* scanlines */
+.lscan{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.4;
+  background:repeating-linear-gradient(rgba(27,157,255,.045) 0 1px,transparent 1px 3px)}
+
+/* search bar */
+.lbar{position:relative;z-index:3;display:flex;align-items:center;gap:14px;padding:16px 22px;
+  border-bottom:1px solid var(--accent-dim)}
+.lbat{width:30px;height:15px;fill:var(--accent);flex-shrink:0;animation:batpulse 3s ease-in-out infinite}
+@keyframes batpulse{0%,100%{opacity:.82;filter:drop-shadow(0 0 4px var(--glow))}
+  50%{opacity:1;filter:drop-shadow(0 0 11px var(--glow))}}
+#lsearch{flex:1;background:none;border:0;outline:0;color:var(--line);
+  font-family:var(--hud);font-size:18px;letter-spacing:.12em}
+#lsearch::placeholder{color:var(--dim);letter-spacing:.16em}
+.lhint{font-family:var(--mono);font-size:10px;color:var(--dim);
+  border:1px solid var(--accent-dim);padding:3px 7px;letter-spacing:.12em;flex-shrink:0}
+
+/* results */
+#lresults{position:relative;z-index:3;list-style:none;max-height:56vh;overflow-y:auto;padding:6px 0}
+#lresults::-webkit-scrollbar{width:3px}
+#lresults::-webkit-scrollbar-thumb{background:var(--accent-dim)}
+#lresults li{display:flex;align-items:center;gap:13px;padding:8px 20px;cursor:pointer;
+  border-left:2px solid transparent;transition:.1s}
+#lresults li .licon{width:22px;height:22px;flex-shrink:0;color:var(--accent-dim);
+  display:flex;align-items:center;justify-content:center;transition:.1s}
+#lresults li .licon svg{width:20px;height:20px}
+#lresults li .licon .licon-img{width:22px;height:22px;object-fit:contain;border-radius:4px;display:block}
+#lresults li .lemoji{font-size:18px;line-height:1}
+#lresults li .ltext{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+#lresults li .ltitle{font-size:13.5px;letter-spacing:.03em;color:var(--line);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lresults li .lsub{font-family:var(--mono);font-size:10px;color:var(--dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lresults li.sel{background:linear-gradient(90deg,rgba(27,157,255,.16),transparent);
+  border-left-color:var(--accent)}
+#lresults li.sel .licon{color:var(--accent);filter:drop-shadow(0 0 6px var(--glow));transform:translateX(2px)}
+#lresults li.sel .ltitle{color:#fff}
+#lresults:empty::after{content:'· NO SIGNAL ·';display:block;padding:16px 22px;color:var(--dim);
+  font-size:11px;letter-spacing:.25em}
+
+/* footer */
+.lfoot{position:relative;z-index:3;display:flex;justify-content:space-between;
+  padding:7px 22px;border-top:1px solid rgba(12,95,150,.4);
+  font-family:var(--mono);font-size:9px;letter-spacing:.28em;color:var(--dim)}
+.lfoot span:first-child{color:var(--accent);text-shadow:0 0 6px var(--glow)}

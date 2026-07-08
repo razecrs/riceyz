@@ -1,0 +1,7 @@
+{
+  "github": "gho_or_pat_token_from_gh_auth_token",
+  "spotify_id": "your_spotify_app_client_id",
+  "spotify_secret": "your_spotify_app_client_secret",
+  "spotify_redirect": "https://your.site/callback",
+  "notion": "ntn_your_notion_internal_integration_token"
+}
