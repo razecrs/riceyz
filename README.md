@@ -4,6 +4,12 @@ A from-scratch Windows desktop shell, a **live, clickable wallpaper**, a **Flow-
 
 Built with [`wry`](https://github.com/tauri-apps/wry) (WebView2) + [`tao`](https://github.com/tauri-apps/tao) + the `windows` crate. No Electron.
 
+## Heads up before you run this
+
+- **It hides your taskbar.** While the host runs it keeps the Windows taskbar hidden (re-hides it every ~1.5s). That is on purpose, the rice *is* your desktop.
+- **It's for keyboard gremlins.** No taskbar means you get around with the `Alt+Space` launcher and shortcuts. If you live on the taskbar with a mouse, this will feel wrong.
+- **Getting your taskbar back:** kill `host.exe` and disable or delete the `BatcaveHost` scheduled task. It comes right back (a sign-out or explorer restart if it is being stubborn).
+
 ## What you get
 
 **Wallpaper / dashboard**, reparented onto the desktop layer (WorkerW/Progman), clickable via a low-level mouse hook. Live CPU/RAM/GPU, clock, weather, a **real WASAPI-loopback audio visualizer** (actual FFT, not fake bars), an SMTC music player, theme swatches, a power menu, quick toggles, and a one-click UI reload.
